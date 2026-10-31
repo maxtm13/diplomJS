@@ -1,51 +1,58 @@
-const slider = () => {
-  const nextSlide = document.querySelector('.benefits__arrow--right');
-  const prevSlide = document.querySelector('.benefits__arrow--left');
-  // const countActiveSlides = 3;
-  // const slider = document.querySelector('.benefits-inner');
-  const arrows = document.querySelector('.benefits-arrows');
-  const slides = document.querySelectorAll('.benefits__item');
-  const countSlides = slides.length;
-  const count = 0;
-  const countActiveslides = window.innerWidth > 576 ? 3 : 1;
-  const initSliders = () => {
-    slides.forEach((item, index) => {
-      item.setAttribute('data-index', index);
-      if (index < countActiveslides) {
-        item.setAttribute('data-active', '');
-        item.classList.add('active');
+const slider = (sliderWrapperSel, slideSel, nextBtnSel, prevBtnSel, slidesToShowDesktop) => {
+  const sliderWrapper = document.querySelector(sliderWrapperSel);
+  if (!sliderWrapper) return;
+
+  const slides = sliderWrapper.querySelectorAll(slideSel);
+  const nextBtn = document.querySelector(nextBtnSel);
+  const prevBtn = document.querySelector(prevBtnSel);
+
+  if (!slides.length) return;
+
+  let currentSlide = 0;
+
+  const getSlidesToShow = () => (window.innerWidth >= 576 ? slidesToShowDesktop : 1);
+
+  const renderSlides = () => {
+    const slidesToShow = getSlidesToShow();
+    if (currentSlide > slides.length - slidesToShow) {
+      currentSlide = Math.max(0, slides.length - slidesToShow);
+    }
+
+    slides.forEach((slide, index) => {
+      if (index >= currentSlide && index < currentSlide + slidesToShow) {
+        slide.style.display = 'block';
+      } else {
+        slide.style.display = 'none';
       }
     });
   };
-  const showSlides = (direction) => {
-    if (direction === 'next') {
-      const firstSlideIndex = slides[0].parentElement.querySelector('[data-active]').getAttribute('data-index');
-      console.dir(firstSlideIndex);
-    }
-  };
-  initSliders();
-  arrows.addEventListener('click', (e) => {
-    if (e.target === nextSlide || e.target.parentElement === nextSlide) {
-      console.log('next');
-      showSlides('next');
-    } else if (e.target === prevSlide || e.target.parentElement === prevSlide) {
-      console.log('prev');
 
-      // console.log('left');
-    }
-    // slides.forEach((item, index) => {
-    //   if (index < count) {
-    //     // item.classList.add('fadeOutLeft', 'animated');
-    //     item.style.display = 'none';
-    //     // item.addEventListener('animationend', () => {
-    //     //   item.style.display = 'none';
-    //     // });
-    //   } else {
-    //     item.style.display = 'block';
-    //     // item.classList.remove('fadeOutLeft');
-    //     // item.classList.add('fadeInLeft', 'animated');
-    //   }
-    // });
+  renderSlides();
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const slidesToShow = getSlidesToShow();
+      currentSlide++;
+      if (currentSlide > slides.length - slidesToShow) {
+        currentSlide = 0;
+      }
+      renderSlides();
+    });
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const slidesToShow = getSlidesToShow();
+      currentSlide--;
+      if (currentSlide < 0) {
+        currentSlide = slides.length - slidesToShow;
+      }
+      renderSlides();
+    });
+  }
+
+  window.addEventListener('resize', () => {
+    renderSlides();
   });
 };
 

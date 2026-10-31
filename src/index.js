@@ -1,8 +1,21 @@
 import modal from './modules/modal.js';
 import slider from './modules/slider.js';
 import timer from './modules/timer.js';
+import formControl from './modules/formControl.js';
+import serts from './modules/serts.js';
+import scrollTop from './modules/scrollTop.js';
+import calc from './modules/calc.js';
 
-modal();
-slider();
-timer('order_2', '2026 25 october 23:59');
-timer('order_1', '2026 25 october 23:59');
+modal('a[href="#callback"]', '.header-modal', '.header-modal__close');
+slider('.benefits-wrap', '.benefits__item', '.benefits__arrow--right', '.benefits__arrow--left', 3);
+modal('a[href="#application"]', '.services-modal', '.services-modal__close');
+slider('.slider-wrapper', '.slide', '.services__arrow--right', '.services__arrow--left', 2);
+timer('order_2', '2026 15 november 23:59');
+timer('order_1', '2026 15 november 23:59');
+formControl('form[name=action-form]');
+formControl('form[name=action-form2]');
+formControl('form[name=callback-form]');
+formControl('.header-modal #callback form[name=callback-form]');
+serts();
+scrollTop('.smooth-scroll', 'offer');
+calc();

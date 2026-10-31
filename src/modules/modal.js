@@ -1,20 +1,13 @@
-const modal = () => {
-  const modalButtons = document.querySelectorAll('.fancyboxModal');
-  const callBackForm = document.querySelector('.header-modal');
+const modal = (btns, modalWindow, closeBtnSelector) => {
+  const modalButtons = document.querySelectorAll(btns);
+  const callBackForm = document.querySelector(modalWindow);
   const overlay = document.querySelector('.overlay');
-  const closeBtn = callBackForm.querySelector('.header-modal__close');
+  const closeBtn = callBackForm.querySelector(closeBtnSelector);
   modalButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
-      const callbackBox = e.target.getAttribute('href').match(/\w+/gi)[0];
-      console.log(callbackBox);
-
-      if (callbackBox === 'callback') {
-        console.log(callbackBox);
-
-        callBackForm.style.display = 'block';
-        overlay.style.display = 'block';
-      }
+      callBackForm.style.display = 'block';
+      overlay.style.display = 'block';
     });
   });
   closeBtn.addEventListener('click', () => {
